@@ -1,0 +1,94 @@
+<div class="container mt-xl-5 mt-lg-5 mt-md-5 sm-xs">
+    <div style="text-align: center;">
+        <label >{{this.emailservice.getCourse()}}</label>   
+    </div>     
+    <div class="mt-3" *ngFor="let class of this.emailservice.getClasses(); let i=index ">
+        <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-1 col-1"></div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-10 col-10">
+        <div  class="card shadow p-3 mb-4  rounded">
+            <div class="card-body">
+        <i [class]="this.icon[i]? this.icon[i] : this.icon[i]='fa fa-angle-right'" (click)="openFolders(i)"></i>
+        <a  (click)="openFolders(i)">
+            <!-- [class]="this.icon[i]" -->
+            <span>{{class}}</span>
+        </a>
+        <div *ngIf="this.open[i]">
+            <div class="container ml-3">
+                <div>
+                    <a (click)="showFiles('Lectures',i)">
+                        <span class="underline">Lectures</span>
+                    </a>
+                </div>
+                <div>
+                    <a (click)="showFiles('Quizes',i)">
+                        <span class="underline">Quizes</span>
+                    </a>
+                </div>
+                <div>
+                    <a (click)="showFiles('Assignments',i)">
+                        <span class="underline">Assignments</span>
+                    </a>
+                </div>
+                <div>
+                    
+                    <i [class]="this.innerIcon[(i*2)-1]? this.innerIcon[(i*2)-1] : this.innerIcon[(i*2)-1]='fa fa-angle-right'" (click)="innerOpenFolders((i*2)-1)"></i>
+                    <!-- <a (click)="showFiles('Papers',i)"> -->
+                    <a (click)="innerOpenFolders((i*2)-1)">
+                        <span class="underline">Mids</span>
+                    </a>       
+                </div>
+            <div *ngIf="this.innerOpen[(i*2)-1]">
+                <div class="container ml-3">
+                    <div>
+                        <a (click)="showFiles('Mids/AvgPaper',i)">
+                            <span class="underline">AvgPaper</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a (click)="showFiles('Mids/BestPaper',i)">
+                            <span class="underline">BestPaper</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a (click)="showFiles('Mids/WorstPaper',i)">
+                            <span class="underline">WorstPaper</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+                <div>
+                    
+                    <i [class]="this.innerIcon[i*2]? this.innerIcon[i*2] : this.innerIcon[i*2]='fa fa-angle-right'" (click)="innerOpenFolders(i*2)"></i>
+                    <!-- <a (click)="showFiles('Papers',i)"> -->
+                    <a (click)="innerOpenFolders(i*2)">
+                        <span class="underline">Finals</span>
+                    </a>
+                </div>
+                <div *ngIf="this.innerOpen[i*2]">
+                    <div class="container ml-3">
+                        <div>
+                            <a (click)="showFiles('Finals/AvgPaper',i)">
+                                <span class="underline">AvgPaper</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a (click)="showFiles('Finals/BestPaper',i)">
+                                <span class="underline">BestPaper</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a (click)="showFiles('Finals/WorstPaper',i)">
+                                <span class="underline" >WorstPaper</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>

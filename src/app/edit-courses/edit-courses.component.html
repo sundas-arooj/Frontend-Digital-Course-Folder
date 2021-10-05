@@ -1,0 +1,54 @@
+<div class="mt-5 ml-3">
+<form [formGroup]="CReg">
+    <div formArrayName="coursesList">
+        <div>
+            
+        </div>
+        <h4 for="course">Choose your course from the list:</h4>
+        <div  *ngFor="let course of CReg.get('coursesList')['controls']; let i=index" class="row panel panel-default">
+        <div class="col-10" [formGroupName]="i">
+            <hr *ngIf="i>0" >
+                <div class="row">
+                    <div class="form-group col-6 textbox">   
+                    <input (change)="OnChangeCourse($event.target.value,i)" formControlName="courName" placeholder="Course Name" list="courseslist" name="courselist" id="courselist" class="rounded">   
+                    <datalist id="courseslist" class="ng-select dropdown">
+                    <option *ngFor="let crs of listItems" >{{crs}}</option>
+                    </datalist>
+                    </div> 
+                    <!-- <div *ngIf="IsChanged[i]" class="form-group col-4"> 
+                        <label *ngFor="let classess of checkboxItem[i]">
+                          <input class="cb" type="checkbox" [value]="classess" (change)="OnChangeClasses($event,classess,i)" formControlName="checkClass"/>
+                           {{ classess}}
+                        </label>
+                    </div>  -->
+                    <!-- *ngIf="display[i].show" -->
+                    <!-- <label *ngFor="let classess of checkboxItem[i].Classes"> -->
+                    <!-- </label> -->
+            <div class="form-group col-4"> 
+                <div formArrayName="checkClass">
+                    <div  *ngFor="let class of course.get('checkClass')['controls']; let j=index" class="row panel panel-default">
+                    <div class="col-10" [formGroupName]="j">
+                    <label >
+                        <input class="cb" type="checkbox" id="className" formControlName="classes" [value]="checkboxItem[i][j]" (change)="OnChangeClasses($event,checkboxItem[i][j],i)" />
+                       {{ checkboxItem[i][j]}}
+                    </label>
+                    </div>
+                </div>
+                </div>          
+            </div> 
+                </div>
+            </div>
+                <div class="col-2">
+                <button type="button" class="btn-danger btn-sm pull-right rounded" title="Delete Course" *ngIf="formArray.length>1" (click)="removeCourse(i)">X</button>
+                </div>
+            <hr>   
+        </div>
+    </div>
+    <button (click)="addCourse()"  title="Add Course" class="icon rounded" style="cursor: default"> +</button>
+    <div class="pt-3">
+        <button [disabled]="CReg.pristine || CReg.invalid" class="btn" (click)="register()" > Register </button>
+    </div>
+    
+</form>
+</div>
+         

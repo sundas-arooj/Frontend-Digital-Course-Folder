@@ -1,0 +1,44 @@
+/* a {
+    cursor: pointer;
+    background-color: rgb(236, 241, 245);
+} */
+span {
+    cursor: pointer;
+    /* background-color: rgb(236, 241, 245); */
+    font-size: large;
+    color: rgb(0, 0, 0); 
+    margin-left: 5px;
+    font-family: Georgia, serif;
+}
+a :hover {
+    text-decoration : underline;
+    background-color: rgb(191, 181, 221);
+    font-size: x-large;
+}
+i {
+    font-size: 1.1em;
+}
+i:hover{
+   font-size: 1.5em;
+}
+label {
+    font-family: Georgia, serif;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}
+/* .card-body {
+    background-color: #bba7da;
+} */
+.card {
+    background-color: #e6dff1;
+}
+.card:hover{
+    background-color: #dcd5e7;
+    border-color: lightslategrey;
+}
+@media all and (max-width: 767px) {
+	.sm-xs{
+		margin-top: 80px;
+	}
+}

@@ -1,0 +1,90 @@
+h4 { 
+    display: flex; 
+    align-items: center;
+    font-family: Georgia, serif;
+} 
+.heading{
+    font-family: Georgia, serif;
+    font-size: x-large;
+}
+label{
+    display: flex; 
+    align-items: center;
+}
+hr{
+    height: 2px;
+    background: lightgrey;
+}
+.cb{
+    margin-right: 5px;   
+} 
+.textbox input, datalist {
+	width: 70%;
+	font-size: 16px;
+	padding: 3px 5px;
+    margin: 3px 0;
+    border-top: solid 2px  #3d314e;
+    border-bottom: solid 2px  #3d314e;
+    border-left: solid 2px #3d314e;
+    border-right: solid 2px  #3d314e;
+}
+/* datalist:focus{
+    width: 30px;
+  
+} */
+.textbox input:hover{
+    border-top: solid 2px #56407e;
+    border-bottom: solid 2px #56407e;
+    border-left: solid 2px #56407e;
+    border-right: solid 2px #56407e;
+}
+/* .textbox input:active{
+    border-top: solid 2px yellow;
+    border-bottom: solid 2px yellow;
+    border-left: solid 2px #56407e;
+    border-right: solid 2px #56407e;
+}
+#courseslist.ng-touched {
+    border-top: solid 2px yellow;
+    border-bottom: solid 2px yellow;
+}
+#courseslist.ng-invalid.ng-untouched.ui-inputwrapper-focus:not(form) > div {
+    box-shadow: 0 0 0 0.05em #F40000;
+    border: 1px solid #D40000;
+    border-radius: 2px;
+  } */
+.btn{
+	width: 80px;
+    background-color: #2a2236;
+	border: 2px solid #3d354b;
+	color: white;
+	padding: 5px;
+	font-size: 18px;
+	cursor: pointer;
+    margin: 12px 80px;
+    float: right;
+}
+/* @media all and (max-width: 767px) {
+	.sm-float{
+		text-align:center;
+	}
+}
+
+@media all and (min-width: 768px) {
+	.lg-float{
+		float: right;
+	}
+} */
+.btn:hover {
+	background-color: #3d314e;
+	border: 2px solid #111a69;
+}
+.icon{
+    background: #2a2236;
+    color: white;
+}
+.icon:hover{
+    background: #3d314e;
+    color: #16c7ff;
+    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
+}

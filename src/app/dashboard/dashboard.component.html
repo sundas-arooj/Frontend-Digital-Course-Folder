@@ -1,0 +1,61 @@
+<div style="display: block" >
+    <div class="row mt-lg-5 mt-xl-5 mt-md-5 small-margin extra-small-margin  ml-3">
+        <div class="col-lg-6 col-xs-12 col-sm-12 col-xl-6 col-md-6">
+            <canvas baseChart
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"
+            >
+        </canvas>
+        </div>
+    </div>
+</div>
+<!-- <div>
+    <div *ngFor="let course of coursess; let i = index" >
+        {{course.CourseName}}
+        <div>
+        Quizes  Assignments   Lectures    Mids     Finals
+        </div>
+        <div *ngFor="let class of course.Classes">
+            {{class}}
+        </div>
+    </div>
+</div> -->
+<table class="table ">
+    <col>
+    <colgroup span="2"></colgroup>
+    <colgroup span="2"></colgroup>
+        <tr>
+            <td rowspan="2"></td>
+            <div *ngFor="let course of coursess; let i = index" >
+            <th colspan="6" scope="colgroup">{{course.CourseName}}</th>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Quizes</th>
+                <th scope="col">Assignments</th>
+                <th scope="col">Lectures</th>
+                <th scope="col">Mids</th>
+                <th scope="col">Finals</th>
+            </tr>    
+            <tr *ngFor="let class of course.Classes">
+                <th  scope="col">{{class}}</th>
+                <ng-container *ngFor="let obj of this.fileProgess">
+                    <td *ngIf="obj.Class == class">
+                        {{obj.Files}}
+                    </td>
+                </ng-container>
+            </tr>
+            </div>
+        </tr> 
+  </table>
+  <!-- <div>
+      <button class="btn mt-4" (click)="cal_Percentage()">
+          Progress
+      </button>
+  </div> -->
+  

@@ -1,0 +1,38 @@
+<table id="tbl" class="table table-hover ml-4 mt-xl-4 mt-lg-4 mt-md-3 sm-xs width" style="border-collapse: collapse;">
+    <thead >
+        <tr>
+            <th style="text-align:center">Faculty Name</th>
+            <th style="text-align:center;">Courses and Classes</th>
+            <th style="text-align:center">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let user of this.RegUsers;" style="text-align:center">
+            <td style="text-align:center;">
+                {{ user.Name }}
+            </td>               
+            <td class="" style="text-align:center; width: 360px;">
+                <tr  *ngFor="let course of user.Courses;"> 
+                    {{ course.CourseName }}
+                    <td style="text-align:center; ">
+                        <tr  class="pl-5" *ngFor="let class of course.Classes;" >
+                            {{ class }}
+                        </tr>
+                    </td>
+                </tr>
+            </td>
+            <td>
+                <button class="btn btn-secondary mr-2 " (click)="MakeAdmin(user.Name,user.Username)" >Make Admin</button>
+                <a [routerLink]="['../','edit',user.Username]" class="btn btn-primary">Edit</a>
+            </td>
+            <!-- [routerLink]="['../signup',{flag:true}]" -->
+            <!-- <td *ngFor="let course of user.Courses;">
+                    {{ course.CourseName }}
+                <tr *ngFor="let class of course.Classes;">
+                    {{ class }}
+                </tr>
+            </td> -->
+        </tr>
+    </tbody>
+</table>

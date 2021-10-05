@@ -1,0 +1,142 @@
+<!-- <div class="container-main container-fluid" ng-app='app'>
+    <div class="content" ng-controller="DemoController">
+       <div class="container mt-5 pt-5">
+          <button data-ng-click="addCourse()" class="btn inline btn-success">
+             Add form input group
+          </button>
+          <div class="row">
+             <div class="col-md-8">
+                <form name="userForm" [formGroup]="CReg" novalidate class="form-inline"> -->
+                   <!-- <div ng-repeat="info in informations"> -->
+                      <!-- <div class="row">
+                         <div class="col-md-8"> -->
+                            <!-- <div class="form-group">
+                               <label class="sr-only" for="input-name-{{$index+1}}">Name</label>
+                               <input type="name" class="form-control" id="input-name-{{$index+1}}" placeholder="{{$index+1}} - Your name" ng-model="info.inputName">
+                            </div> -->
+                            <!-- <div class="form-group">
+                               <label class="sr-only" for="">Select elements</label>
+                               <select class="form-control"  formControlName="courses">
+                                  <option  *ngFor="let course of listItem" value="">
+                                     {{course}}</option>
+                               </select>
+                            </div> -->
+                            <!-- <div class="form-group">
+                              <label for="course">Choose your course from the list:</label>
+                              <input formControlName="courses" list="courses" name="course" id="course">
+                              <datalist id="courses">
+                              <option *ngFor="let course of listItem" >{{course}}</option>
+                              </datalist>
+                           </div>
+                         </div> -->
+                         <!-- <div class="col-md-4">
+                            <button data-ng-click="removeItem($index)" class="btn delete-field-{{$index}}">Delete</button>
+                         </div> -->
+                         <!-- <div formArrayName="coursesList" *ngFor="let course of CReg.get('coursesList')['controls']; let i = index">
+                           <hr *ngIf="i>0">
+                           <div [formGroupName]="i">
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label" [attr.for]="'courName'+i">
+                              Course
+                              </label>
+                             <div class="col-sm-4">
+                               <input type="text" class="form-control"  [id]="'courName'+1" formControlName="courName" placeholder="SE,CC etc...">
+                             </div>
+                             <div class="col-sm-6" *ngIf="formArray.length>1"> 
+                               <button type="button" class="btn btn-danger btn-sm pull-right" title="Delete Course" (click)=removeCourse(i)> -->
+                              <!-- <span class="glyphicon glyphicon-remove"></span> -->
+                              <!-- Remove
+                               </button>
+                              </div>
+                             </div>
+                           
+                           </div>
+                           </div>
+                      </div> -->
+                      
+                   <!-- </div> -->
+                   <!-- <input type="submit">
+                </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div> -->
+
+ <div *ngIf="!IsRegistered" class="container mt-5 pt-5">
+   
+ <form [formGroup]="CReg">
+   <div formArrayName="coursesList">
+      <h3 for="course">Choose your course from the list:</h3>
+      <div  *ngFor="let course of CReg.get('coursesList')['controls']; let i=index" class="row panel panel-default">
+         <div class="col-xl-10 col-lg-10 col-md-10 col-sm-11 col-10" [formGroupName]="i">
+            <hr *ngIf="i>0" >
+               <div class="row">
+                  <div class="form-group col-xl-7 col-lg-7 col-md-7 col-sm-6 col-xs-6 textbox">   
+                     <input (change)="OnChangeCourse($event.target.value,i)" formControlName="courName" placeholder="Course Name" list="courseslist" name="courselist" id="courselist" class="rounded">   
+                     <datalist id="courseslist" class="ng-select dropdown">
+                     <option *ngFor="let crs of listItems" >{{crs}}</option>
+                     </datalist>
+                     <!-- [id]="'courselist'+i" value="{{crs}}" -->
+                     <!-- <div *ngIf="formArray.controls[i].get('courName').errors?.required">
+                        Course Name is Required.
+                     </div> -->
+                     <!-- course.get('courName').dirty ||
+                        course.get('courName').touched) -->
+                     <!-- <div
+                        *ngIf= "course.get('courName').invalid &&
+                         course.get('courName').dirty ||
+                         course.get('courName').touched)"
+                        
+                        class="alert alert-danger col-md-6 mb-3"
+                        >
+                        <div *ngIf="formArray.controls[i].get('courName').errors?.required">
+                           Course Name is Required.
+                        </div>
+                     </div>  -->
+                     
+                  <!-- <div
+                  *ngIf="
+
+                  formArray.controls[i].get('courName').invalid &&
+                  formArray.at(i).get('courName').dirty ||
+                  formArray.at(i).get('courName').touched)
+                  "
+                  class="alert alert-danger col-md-6 mb-3"
+                  >
+                  <div *ngIf="formArray.at(i).get('courName').errors.required">
+                      Course Name is Required.
+                  </div>
+                  </div> -->
+                  </div> 
+                  
+                   <div *ngIf="display[i].show" class="form-group col-xl-5 col-lg-5 col-md-5 col-sm-6 col-xs-6"> <!-- *ngIf="shown(i)"  -->
+                     <label *ngFor="let classess of checkboxItem[i].Classes">
+                       <input class="cb" type="checkbox" [value]="classess" (change)="OnChangeClasses($event,classess,i)" formControlName="checkClass"/>
+                        {{ classess}}
+                     </label>
+                   </div> 
+               </div>
+            
+               <!-- <input  formControlName="courName" placeholder="Course Name" value=""> -->
+         </div> <!-- col10 -->
+           <div class="col-xl-2 col-lg-2 col-md-2 col-sm-1 col-2">
+            <button type="button" class="btn-danger btn-sm pull-right rounded" title="Delete Course" *ngIf="formArray.length>1" (click)="removeCourse(i)">X</button>
+           </div>
+           <hr >   
+      </div>
+   </div>
+   <button (click)="addCourse()"  title="Add Course" class="icon rounded" style="cursor: default"> +</button>
+   <div class="pt-3">
+      <button [disabled]="CReg.pristine || CReg.invalid" class="btn" (click)="register()" > Register </button>
+   </div>
+   
+</form>
+</div>
+
+<div *ngIf="IsRegistered" class="container mt-5 pt-5 text-center" >
+   <h2 class="heading" style="font-weight: bold;">You Sucessfully Registered your courses</h2>
+   <h5 class="heading">For any updation contact admin</h5>
+</div>
+
+      

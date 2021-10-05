@@ -1,0 +1,32 @@
+th{
+    background-color: #2c0d41;
+    color: white;
+    font-family: Georgia, serif;
+}
+tr, td {
+    font-family: Georgia, serif;
+}
+
+#tbl {
+    border: 1px solid #2c0d41;
+    padding: 8px;
+  }
+ #mainRow{
+    border: 1px solid #2c0d41;
+ }
+
+ @media all and (max-width: 767px) {
+	.sm-xs{
+		margin-top: 80px;
+	}
+    .width {
+        width: 210%;
+    }
+}
+
+/* for medium to extra large */
+@media all and (min-width: 768px) {
+    .width {
+        width: 70%;
+    }
+}

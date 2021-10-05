@@ -1,0 +1,123 @@
+<!-- *ngIf="this.showDate" -->
+<div *ngIf="this.showDate" class="container ml-3 mt-xl-4 mt-lg-4 mt-md-4 sm-xs">
+    <form [formGroup]="DashDatesForm"  id="sname-form"> 
+        <div class="form-group">
+            <div class="row"> 
+                <label class="text col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6" for="SemesterName">Enter Semester Name:  </label>
+                <input class="form-input col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" name="SemesterName" type="text" placeholder="e.g., Fall-2020" formControlName="SemName" (input)=getSemName($event.target.value)/>
+            </div>
+            <div class="row" *ngIf="
+            DashDatesForm.controls['SemName'].invalid &&
+            (DashDatesForm.controls['SemName'].dirty ||
+            DashDatesForm.controls['SemName'].touched)">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" *ngIf="DashDatesForm.controls['SemName'].errors.pattern" 
+                class="text-danger">
+                    Semester Name should be in format
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="text col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6" for="">Classes Start Date: </label>
+                <input class="form-input col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" formControlName="StartDate" type="date" (input)="getStartDate($event.target.value)"/>
+            </div> 
+            <div class="row" 
+            *ngIf="DashDatesForm.controls['StartDate'].invalid &&
+            (DashDatesForm.controls['StartDate'].dirty ||
+            DashDatesForm.controls['StartDate'].touched)">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" 
+                *ngIf="DashDatesForm.controls['StartDate'].errors.required" 
+                class="text-danger">
+                    Start Date is Required
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="text col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6" for="">Classes End Date: </label>
+                <input class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" type="date" formControlName="EndDate" (input)="getEndDate($event.target.value)"/>
+            </div>
+            <div class="row" 
+            *ngIf="DashDatesForm.controls['EndDate'].invalid &&
+            (DashDatesForm.controls['EndDate'].dirty ||
+            DashDatesForm.controls['EndDate'].touched)">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" 
+                *ngIf="DashDatesForm.controls['EndDate'].errors.required" 
+                class="text-danger">
+                    End Date is Required
+                </div>
+            </div>  
+            <div class="row mt-2">
+                <label class="text col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6" for="">Mids Start Date: </label>
+                <input class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" type="date" formControlName="MidsDate" 
+                (input)="getMidsDate($event.target.value)"/>
+            </div> 
+            <div class="row" 
+            *ngIf="DashDatesForm.controls['MidsDate'].invalid &&
+            (DashDatesForm.controls['MidsDate'].dirty ||
+            DashDatesForm.controls['MidsDate'].touched)">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" 
+                *ngIf="DashDatesForm.controls['MidsDate'].errors.required" 
+                class="text-danger">
+                    Mids Date is Required
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label class="text col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6" for="">Finals Start Date: </label>
+                <input class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" type="date" formControlName="FinalsDate" (input)="getFinalsDate($event.target.value)"/>
+            </div>
+            <div class="row" *ngIf="
+            DashDatesForm.controls['FinalsDate'].invalid &&
+            (DashDatesForm.controls['FinalsDate'].dirty ||
+            DashDatesForm.controls['FinalsDate'].touched)">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5 col-5" *ngIf="DashDatesForm.controls['FinalsDate'].errors.pattern" 
+                class="text-danger">
+                    Finals Date is Required
+                </div>
+            </div>               
+        </div>
+        <div>
+            <button 
+            [disabled]="DashDatesForm.pristine || DashDatesForm.invalid"
+            class="btn" 
+            (click)="saveDate()">Save Dates</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!this.showDate" class="container ml-3 mt-xl-4 mt-lg-4 mt-md-4 sm-xs">
+        <div class="userss ml-3"  style="font-family: Georgia, serif;">
+            List of Faculty
+        </div>
+        <div class="row">
+            <div *ngFor="let user of UsersPer; let i=index " class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 mt-3" >
+              <div  class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center">
+                    <img class="img-responsive img-rounded" width="50" src="https://www.uoh.cl/assets/img/no_img.jpg"
+                    alt="User picture">
+                    <p class="mb-0 mt-2">{{user.Name}}</p>
+                    <p class="small">{{user.Percentage}}%</p>
+                    <a  (click)="LoadDashboard(user.Name,user.Username)" class="stretched-link"></a>
+                  </div>           
+                </div>
+              </div>
+             </div>
+        </div>    
+        <!-- <div *ngFor="let user of RegUsers; let i=index ">
+            <button id="button" class="button" (click)="DisplayProgress(user._id)">
+                <span class="userss" style="color: rgb(0, 0, 0); font-family: Georgia, serif;">{{user.Name}}</span>
+            </button>
+        </div> -->    
+</div>
+<!-- <div >
+    <div class="row" >
+        <div class="col col-10"></div>
+        <div class="col col-2">
+            
+        </div>
+    </div>
+</div> -->
+
+

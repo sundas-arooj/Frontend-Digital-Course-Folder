@@ -1,0 +1,57 @@
+<div class="container ml-4 mt-xl-4 mt-lg-4 mt-md-3 sm-xs width pt-5 pb-5 ">
+    <div class="row">
+
+    <div class="col-8">
+        <!-- <div *ngIf="message" class="text-success">{{message}}</div> -->
+        <input type="file" accept=".xlsx" multiple="false" (change)="selectFile($event)" />
+        <button (click)="onFileChange()" [disabled]="!selectedFiles" class="btn margin"> Upload </button>
+    </div>
+    <div class="custom-control custom-switch col-4">      
+        <input type="checkbox" (change)="ToggleFtn()" class="custom-control-input" id="customSwitches" [checked]="this.toggle">
+        <label class="custom-control-label" for="customSwitches">Start Course Registration</label>
+      </div> 
+    </div> 
+    <div class="row mt-5 ">
+        <div class="col-xl-3 col-lg-3 col-md-2 "></div>
+        <div class="col-xl-8 col-lg-8 col-md-9 col-sm-12 col-xs-12" >
+            <table id="tbl" class="table table-hover " style="border-collapse: collapse;">
+                <thead >
+                    <tr>
+                        <th style="text-align:center; width: 250px;">Courses</th>
+                        <th style="text-align:start;width: 150px;">Classes</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    <tr *ngFor="let crs of this.AllCourses"> 
+                        <td style="text-align:center">
+                            {{ crs.CourseName }}      
+                        </td>                      
+                        <td >     
+                            <tr  *ngFor="let class of crs.Classes;" > 
+                                {{ class }}
+                            </tr>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> 
+<!-- <div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td>Course Name</td>
+                <td>Classes</td>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <tr *ngFor="let member of members; let i = index">
+                <td>{{ member.MemberName }}</td>
+                <td>{{ member.MemberBio }}</td>            
+            </tr>
+        </tbody>
+    </table>
+</div> -->
