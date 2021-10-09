@@ -81,7 +81,7 @@ export class ResetPasswordComponent implements OnInit {
       this.service.newPassword(this.ResponseResetForm.value).subscribe(
         data => {
           this.ResponseResetForm.reset();
-         // this.successMessage = data.message;
+          this.successMessage = "Password reset successfully";
           setTimeout(() => {
             this.successMessage = null;
             this.router.navigate(['']);

@@ -25,12 +25,10 @@ export class DashboardComponent implements OnInit {
   temp : string[];
   payload : any;
 
-
   constructor(
     public gl: Global,
     private emailservice:EmailService
-  ) {
-   }
+  ) {}
 
   ngOnInit(): void {
     var UserName;
@@ -52,19 +50,7 @@ export class DashboardComponent implements OnInit {
           size=size+course.Classes.length;
         });
 
-        // var tmp : ChartData={
-        //   "Class":"",
-        //   "Percentage":[0,0,0,0,0]
-        // };
-
-        // for(let i=0; i<size;i++)
-        // {
-        //   this.chartData.push(tmp);
-        // }
-        
-        
         courses.forEach((val,index)=>{
-
           var coursePath=this.emailservice.getSemester()+'/'+Name+'/'+val.CourseName+'/';
           val.Classes.forEach((value)=>{
             var temp : Progress={
@@ -136,7 +122,7 @@ export class DashboardComponent implements OnInit {
         //console.log(this.fileProgess);
 
         this.emailservice.sendPath(this.path).subscribe((fileNumbr : Number[])=>{
-          //console.log(fileNumbr);
+          console.log(fileNumbr);
           var i=0;
           this.fileProgess.forEach((obj,index)=>{
             if(obj.Folder=="Mids" || obj.Folder=="Finals")
@@ -149,10 +135,9 @@ export class DashboardComponent implements OnInit {
               obj.Files=fileNumbr[i];
               i=i+1;
             } 
-            //console.log(index + " progress "+ obj.Files); 
           });
         }); 
-        console.log(this.fileProgess);
+        // console.log(this.fileProgess);
         this.cal_Percentage();
       }
       else {
@@ -160,27 +145,16 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
+  
   //Calculating Percentage
-
   cal_Percentage()
   {
     this.chartData = [];
-    //console.log("in function ");
     this.emailservice.getDates().subscribe((dates : Dates)=>{
-     // console.log(dates);
-      //var c_index=0;
       this.fileProgess.forEach((obj,index)=>{
-        
-        // console.log("in for each loop");
-        // console.log("inside loop "+dates);
         var crrDate=new Date();
-        //console.log(crrDate);
-        //console.log(dates.Quizes[0]);
-
         if(obj.Folder=="Quizes")
         {
-          //this.chartData[c_index].Class=obj.Class;
           var i=0;
           var date;
           this.temp=(dates.Quizes[i]).split('/')
@@ -232,7 +206,7 @@ export class DashboardComponent implements OnInit {
           if(dates.Lectures.length!=0)
           {
             var add_perc=100/(dates.Lectures.length*obj.CreditHrs);
-            console.log(add_perc);
+            // console.log(add_perc);
             var date;
             this.temp=(dates.Lectures[i]).split('/')
             date = this.temp[1] +'/'+this.temp[0]+'/'+this.temp[2];
@@ -258,8 +232,7 @@ export class DashboardComponent implements OnInit {
                 date = this.temp[1] +'/'+this.temp[0]+'/'+this.temp[2];
               }
             }
-            this.lectPerc = Math.round(this.lectPerc);            
-            console.log("Lecture:" + this.lectPerc);
+            this.lectPerc = Math.round(this.lectPerc);
           }          
         }
 
@@ -268,29 +241,26 @@ export class DashboardComponent implements OnInit {
           var i=0;
           var next=new Date();
           var date;
-          this.temp=(dates.midsPaper).split('/')
+          this.temp=(dates.midsPaper).split('/');
           date = this.temp[1] +'/'+this.temp[0]+'/'+this.temp[2];
+          // console.log("date : "+ date);
           next.setMonth(new Date(date).getMonth());
           next.setFullYear(new Date(date).getFullYear());
           next.setDate(new Date(date).getDate()+14);
 
           //console.log("mids increment date :" +next);
-          if(crrDate.getTime()>next.getTime())
-          {
-            if(obj.Files!=3 && obj.Files < 3)
-              {
-                //this.chartData[c_index].Percentage[2]=+this.chartData[c_index].Percentage[2]+ +25;
+          if(crrDate.getTime()>next.getTime()) {
+            if(obj.Files!=3 && obj.Files < 3) {
+              //this.chartData[c_index].Percentage[2]=+this.chartData[c_index].Percentage[2]+ +25;
+              this.midPerc=+this.midPerc + +33.3;
+              if(obj.Files!=2){
                 this.midPerc=+this.midPerc + +33.3;
-                if(obj.Files!=2)
-                {
+                if(obj.Files!=1) {
                   this.midPerc=+this.midPerc + +33.3;
-                  if(obj.Files!=1)
-                  {
-                    this.midPerc=+this.midPerc + +33.3;
-                  }     
-                } 
-              }
-              this.midPerc = Math.round(this.midPerc);
+                }     
+              } 
+            }
+            this.midPerc = Math.round(this.midPerc);
           }
         }
 
@@ -337,10 +307,11 @@ export class DashboardComponent implements OnInit {
           this.finalPerc=0;
         }
       });
-      console.log(this.chartData);
-      this.chartDatasets = [];
-      this.chartColors = [];
-      //adding data in chart
+      // console.log(this.chartData);
+    this.chartDatasets = [];
+    this.chartColors = [];
+    //adding data in chart
+
     this.chartData.forEach((c_data)=>{
       this.chartDatasets.push({'data': c_data.Percentage ,'label': c_data.Class});
       this.chartColors.push({
@@ -378,7 +349,10 @@ export class DashboardComponent implements OnInit {
   public chartLabels: Array<any> = ['Quizes', 'Assignments', 'Lectures', 'Mids', 'Finals'];
   public chartColors: Array<any> = [];
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{id: 'y-axis-1', type: 'linear', position: 'left', ticks: {min: 0, max:100}}]
+    }
   };
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }

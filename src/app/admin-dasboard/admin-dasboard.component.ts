@@ -85,7 +85,7 @@ export class AdminDasboardComponent implements OnInit {
       }
     });
   }
-  //get all Input Dates
+//get all Input Dates
   getStartDate(date: string) {
     this.startDate = new Date(date);
   }
@@ -94,14 +94,19 @@ export class AdminDasboardComponent implements OnInit {
   }
   getMidsDate(date: string) {
     this.midPaperDate = new Date(date);
-    this.midPaperDate = this.midPaperDate.toLocaleDateString();
+    this.midPaperDate = this.midPaperDate.toLocaleDateString('en-GB');
   }
   getFinalsDate(date: string) {
     this.finalPaperDate = new Date(date);
-    this.finalPaperDate = this.finalPaperDate.toLocaleDateString();
+    this.finalPaperDate = this.finalPaperDate.toLocaleDateString('en-GB');
   }
   getSemName(name: string) {
     this.semName = name;
+  }
+
+  getDate(date:string){
+    console.log(date)
+    console.log(new Date(date).toLocaleDateString('en-GB'));
   }
 
   //Save all dates 
@@ -109,6 +114,8 @@ export class AdminDasboardComponent implements OnInit {
     this.emailservice.SemesterName(this.semName).subscribe((data) => {
       if (data) {
         console.log(data);
+        console.log(this.semName);
+        this.emailservice.setSemester(this.semName);
       }
       else {
         console.log("error in saving name");
@@ -117,6 +124,44 @@ export class AdminDasboardComponent implements OnInit {
     this.emailservice.DeleteDates().subscribe((dates) => {
       if (dates) {
         console.log(dates);
+        const diffInMs = Math.abs(this.endDate - this.startDate);
+        var diff = diffInMs / (1000 * 60 * 60 * 24);
+        this.DaysLimit = (diff - 10) / 4;
+        //console.log(this.DaysLimit);
+        var nextDate = new Date();
+        nextDate.setDate(this.startDate.getDate() + this.DaysLimit);
+        nextDate.setMonth(this.startDate.getMonth() + 1);
+        nextDate.setFullYear(this.startDate.getFullYear());
+
+        for (let i = 0; i < 4; i++) {
+          this.next = nextDate.toLocaleDateString('en-GB');
+          this.quizDate.push(this.next);
+          this.assignDate.push(this.next);
+          nextDate.setDate(nextDate.getDate() + this.DaysLimit);
+        }
+        nextDate.setDate(this.startDate.getDate() + 7);
+        nextDate.setMonth(this.startDate.getMonth());
+        nextDate.setFullYear(this.startDate.getFullYear());
+        while (nextDate.getTime() < this.endDate.getTime()) {
+          this.next = nextDate.toLocaleDateString('en-GB');
+          this.lectureDate.push(this.next);
+          nextDate.setDate(nextDate.getDate() + 7);
+        }
+        this.emailservice.saveDates(
+          this.quizDate,
+          this.assignDate,
+          this.lectureDate,
+          this.midPaperDate,
+          this.finalPaperDate).subscribe((data) => {
+            if (data) {
+              console.log(data);
+              this.showDate = false;
+              this.showUsers()
+            }
+            else {
+              console.log("error in saving dates");
+            }
+          })
       }
       else {
         console.log("error in deleting");
@@ -132,7 +177,7 @@ export class AdminDasboardComponent implements OnInit {
     nextDate.setFullYear(this.startDate.getFullYear());
 
     for (let i = 0; i < 4; i++) {
-      this.next = nextDate.toLocaleDateString();
+      this.next = nextDate.toLocaleDateString('en-GB');
       this.quizDate.push(this.next);
       this.assignDate.push(this.next);
       nextDate.setDate(nextDate.getDate() + this.DaysLimit);
@@ -141,7 +186,7 @@ export class AdminDasboardComponent implements OnInit {
     nextDate.setMonth(this.startDate.getMonth());
     nextDate.setFullYear(this.startDate.getFullYear());
     while (nextDate.getTime() < this.endDate.getTime()) {
-      this.next = nextDate.toLocaleDateString();
+      this.next = nextDate.toLocaleDateString('en-GB');
       this.lectureDate.push(this.next);
       nextDate.setDate(nextDate.getDate() + 7);
     }
@@ -151,7 +196,7 @@ export class AdminDasboardComponent implements OnInit {
       this.midPaperDate,
       this.finalPaperDate).subscribe((data) => {
         if (data) {
-          console.log(data);
+          // console.log(data);
           this.showDate = false;
           this.showUsers()
         }
@@ -162,46 +207,29 @@ export class AdminDasboardComponent implements OnInit {
   }
   showUsers() {
     this.emailservice.getUsers().subscribe((users: Users[]) => {
-      console.log("checking users", users);
+      if(users.length==0){
+       console.log("NO user found ") ;
+       return;
+      }
       this.RegUsers = users;
-      //let output = 
       this.calPercentage();
-      // output.then(()=>{
-      //   console.log("Inside main then")
-      //   console.log(this.UsersPer);
-      // })
-
     })
   }
   async calPercentage() {
-    var promise;
-    var reqFiles2 = 0;
     var fileProgess2 = []
-    var path2 = []
-    var savedFiles2 = 0;
-
-    console.log("reg Users length" + this.RegUsers.length);
-
-
+    // console.log("reg Users length" + this.RegUsers.length);
     this.RegUsers.forEach((user) => {
-
-
-
-      console.log("" + user);
+      // console.log("" + user);
       var savedFiles = 0;
       var dir = "";
       var fileProgess = [];
       var path = [];
       if (user.Courses != null) {
-
         for (var k = 0; k < user.Courses.length; k++) {
           var val = user.Courses[k];
-
           var coursePath = this.emailservice.getSemester() + '/' + user.Name + '/' + val.CourseName + '/';
-
           for (var l = 0; l < val.Classes.length; l++) {
             var value = val.Classes[l];
-
             var temp: Progress = {
               "Class": value,
               "Course": val.CourseName,
@@ -266,29 +294,14 @@ export class AdminDasboardComponent implements OnInit {
             path.push(dir);
           };   //inner loop
         };     //outer loop
-        console.log(fileProgess);
-        console.log(path);
-
-
-
       }
       else {
         console.log("Unable to get courses");
       }
-
       this.emailservice.sendPath(path).subscribe((fileNumbr: Number[]) => {
-        console.log(fileNumbr);
-
-        // var output = new Promise(()=>{
-        //   console.log("Inside Promise");
-
-        //     //console.log(index + " progress "+ obj.Files); 
-        // });
-        // calculating percentage
-
+        // console.log(fileNumbr);
         for (var m = 0; m < fileProgess.length; m++) {
           var obj = fileProgess[m];
-
           if (obj.Folder == "Mids" || obj.Folder == "Finals") {
             obj.Files = +fileNumbr[m] + +fileNumbr[m + 1] + +fileNumbr[m + 2];
             m = m + 3;
@@ -299,20 +312,7 @@ export class AdminDasboardComponent implements OnInit {
           }
           console.log(obj);
         };
-        console.log(fileProgess);
         fileProgess2.push(fileProgess);
-        console.log("FIle progess 2", fileProgess2);
-
-
-
-
-
-
-
-        // console.log(this.path);
-        // console.log(this.fileProgess);
-
-
 
         //   console.log(this.fileProgess);
         //   this.fileProgess.forEach((obj)=>{  
@@ -324,7 +324,7 @@ export class AdminDasboardComponent implements OnInit {
         //   this.savedFiles = (+this.savedFiles/reqFiles)*100
         //   this.UsersPer.push({"Name":user.Name,"Percentage":this.savedFiles});
         var reqFiles = 14 + this.SemDates.Lectures.length;
-        console.log("current user", user);
+        // console.log("current user", user);
         this.calculatePercentage(fileNumbr, reqFiles, user.Name, user.Username);
 
       });
@@ -341,12 +341,6 @@ export class AdminDasboardComponent implements OnInit {
       // console.log("Outside "+ this.savedFiles);
       // this.UsersPer.push({"Name":user.Name,"Percentage":this.savedFiles});
     });
-
-
-
-    // console.log(this.UsersPer);
-
-    // console.log(this.UsersPer);
   }
 
   calculatePercentage(fileProgess2: Number[], reqFiles: number,Name : string, userName: string) {
@@ -355,23 +349,20 @@ export class AdminDasboardComponent implements OnInit {
       var obj = fileProgess2[n];
       savedFiles = savedFiles + parseInt(obj.toString());
     };
-    console.log("object", obj);
-    //console.log("Files ", +obj.Files);
-    console.log("object comes here ", obj);
-    console.log("Saved Files ", +savedFiles);
-    console.log("req files", reqFiles);
+    // console.log("object", obj);
+    // //console.log("Files ", +obj.Files);
+    // console.log("object comes here ", obj);
+    // console.log("Saved Files ", +savedFiles);
+    // console.log("req files", reqFiles);
     //savedFiles = +obj.Files + +savedFiles;
     savedFiles = (+savedFiles / reqFiles) * 100
     this.UsersPer.push({
       "Name": Name, "Percentage": Math.round(savedFiles) , "Username": userName
     });
-
     console.log(this.UsersPer);
-    // console.log("Saved Files: "+ this.savedFiles);
   }
   LoadDashboard(Name : string,Username : string){
     this.emailservice.setUser(Name,Username);
     this.router.navigate(['home/dashboard']);
   }
-
 }

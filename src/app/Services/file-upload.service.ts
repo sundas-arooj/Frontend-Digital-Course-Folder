@@ -7,8 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class FileUploadService {
 
+  // private baseUrl = 'http://ncflabnccs.nayatel.net:10012/AUfolder';
+  // uri= 'http://ncflabnccs.nayatel.net:10012/AUfolder';
   private baseUrl = 'http://localhost:4000/AUfolder';
-  uri= 'http://localhost:4000/AUfolder';
+  uri ='http://localhost:4000/AUfolder'
 
   constructor(private http: HttpClient) { }
 

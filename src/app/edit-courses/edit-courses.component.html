@@ -46,7 +46,8 @@
     </div>
     <button (click)="addCourse()"  title="Add Course" class="icon rounded" style="cursor: default"> +</button>
     <div class="pt-3">
-        <button [disabled]="CReg.pristine || CReg.invalid" class="btn" (click)="register()" > Register </button>
+        <button [disabled]="CReg.pristine || CReg.invalid" class="btn btnRegister" (click)="register()" > Register </button>
+        <button class="btn btnCancel" [routerLink]="['../../','facultyManage']"> Cancel </button>
     </div>
     
 </form>
