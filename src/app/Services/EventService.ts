@@ -9,7 +9,7 @@ import { EmailService } from './email.service';
 })
 export class UserEventService {
 
-    uri = 'http://localhost:4000/AUfolder';
+    uri= 'http://ncflabnccs.nayatel.net:10012/AUfolder';
 
     constructor(
         private http: HttpClient,

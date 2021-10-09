@@ -11,8 +11,8 @@ import { Courses } from '../Models/Courses';
 export class EmailService {
 
   constructor(private http:HttpClient) { }
-  // uri= 'http://ncflabnccs.nayatel.net:10012/AUfolder';
-  uri='http://localhost:4000/AUfolder'
+  uri= 'http://ncflabnccs.nayatel.net:10012/AUfolder';
+  
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
 
   ////////////////////////////////TEST///////////////////////////////////
